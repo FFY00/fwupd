@@ -839,7 +839,7 @@ fu_util_device_to_string (FwupdDevice *dev, guint idt)
 	if (g_getenv ("FWUPD_VERBOSE") != NULL) {
 		g_autofree gchar *debug_str = NULL;
 		debug_str = fwupd_device_to_string (dev);
-		g_string_append_printf (str, "%s", debug_str);
+		g_string_append (str, debug_str);
 		return g_string_free (str, FALSE);
 	}
 
@@ -900,9 +900,9 @@ fu_util_device_to_string (FwupdDevice *dev, guint idt)
 
 	/* install duration */
 	if (fwupd_device_get_install_duration (dev) > 0) {
-		/* TRANSLATORS: amount of time to install the update */
-		fu_common_string_append_ku (str, idt + 1, _("Install Duration"),
-					    fwupd_device_get_install_duration (dev));
+		g_autofree gchar *time = fu_util_time_to_str (fwupd_device_get_install_duration (dev));
+		/* TRANSLATORS: length of time the update takes to apply */
+		fu_common_string_append_kv (str, idt + 1, _("Install Duration"), time);
 	}
 
 	/* serial # */
