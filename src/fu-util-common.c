@@ -870,7 +870,7 @@ fu_util_device_to_string (FwupdDevice *dev, guint idt)
 	tmp = fwupd_device_get_version (dev);
 	if (tmp != NULL) {
 		/* TRANSLATORS: version number of current firmware */
-		fu_common_string_append_kv (str, idt + 1, _("Version"), tmp);
+		fu_common_string_append_kv (str, idt + 1, _("Current Version"), tmp);
 	}
 	tmp = fwupd_device_get_version_lowest (dev);
 	if (tmp != NULL) {
