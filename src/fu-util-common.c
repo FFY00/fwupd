@@ -834,11 +834,14 @@ fu_util_device_to_string (FwupdDevice *dev, guint idt)
 	const gchar *tmp2;
 	guint64 flags = fwupd_device_get_flags (dev);
 	g_autoptr(GString) flags_str = g_string_new (NULL);
-	g_autofree gchar *debug_str = NULL;
 
-	/* some fields are intentionally not included */
-	debug_str = fwupd_device_to_string (dev);
-	g_debug ("%s", debug_str);
+	/* some fields are intentionally not included and are only shown in --verbose */
+	if (g_getenv ("FWUPD_VERBOSE") != NULL) {
+		g_autofree gchar *debug_str = NULL;
+		debug_str = fwupd_device_to_string (dev);
+		g_string_append_printf (str, "%s", debug_str);
+		return g_string_free (str, FALSE);
+	}
 
 	/* all devices have a name */
 	fu_common_string_append_kv (str, idt, fwupd_device_get_name (dev), NULL);
