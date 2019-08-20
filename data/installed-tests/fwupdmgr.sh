@@ -9,8 +9,18 @@ fwupdmgr get-remotes
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 # ---
+echo "Disable LVFS remote..."
+fwupdmgr disable-remote lvfs
+rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
+
+# ---
 echo "Enabling fwupd-tests remote..."
 fwupdmgr enable-remote fwupd-tests
+rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
+
+# ---
+echo "Reload metadata..."
+fwupdmgr refresh --no-metadata-check
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 # ---
